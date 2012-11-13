@@ -25,10 +25,12 @@ class JobManager {
 	protected $queueManager;
 
 	/**
-	 * @Flow\Inject
-	 * @var \TYPO3\Flow\Property\PropertyMapper
+	 * @param string $queueName
+	 * @return \TYPO3\Jobqueue\Common\Queue\QueueInterface
 	 */
-	protected $propertyMapper;
+	public function getQueue($queueName) {
+		return $this->queueManager->getQueue($queueName);
+	}
 
 	/**
 	 *
@@ -37,7 +39,7 @@ class JobManager {
 	 * @return void
 	 */
 	public function queue($queueName, JobInterface $job) {
-		$queue = $this->queueManager->getQueue($queueName);
+		$queue = $this->getQueue($queueName);
 
 		$payload = serialize($job);
 		$message = new \TYPO3\Jobqueue\Common\Queue\Message($payload);
@@ -52,10 +54,11 @@ class JobManager {
 	 *
 	 * @param string $queueName
 	 * @param integer $timeout
-	 * @return \TYPO3\Jobqueue\Common\Job\JobInterface The job that was executed or NULL if no job was executed and a timeout occured
+	 * @return \TYPO3\Jobqueue\Common\Job\JobInterface The job that was executed or NULL if no job was executed and a timeout occurred
+	 * @throws \TYPO3\Jobqueue\Common\Exception
 	 */
 	public function waitAndExecute($queueName, $timeout = NULL) {
-		$queue = $this->queueManager->getQueue($queueName);
+		$queue = $this->getQueue($queueName);
 		$message = $queue->waitAndReserve($timeout);
 		if ($message !== NULL) {
 			$job = unserialize($message->getPayload());
@@ -72,13 +75,12 @@ class JobManager {
 	}
 
 	/**
-	 *
 	 * @param string $queueName
 	 * @param integer $limit
 	 * @return array
 	 */
 	public function peek($queueName, $limit = 1) {
-		$queue = $this->queueManager->getQueue($queueName);
+		$queue = $this->getQueue($queueName);
 		$messages = $queue->peek($limit);
 		return array_map(function(\TYPO3\Jobqueue\Common\Queue\Message $message) {
 			$job = unserialize($message->getPayload());
