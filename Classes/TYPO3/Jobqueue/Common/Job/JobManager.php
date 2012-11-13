@@ -36,15 +36,18 @@ class JobManager {
 	 *
 	 * @param string $queueName
 	 * @param \TYPO3\Jobqueue\Common\Job\JobInterface $job
-	 * @return void
+	 * @param integer $priority priority of this job from 0 = most urgent to PHP_INT_MAX = least urgent
+	 * @param integer $delay delay for this job in seconds
+	 * @param integer $timeToRun time to run (TTR) in seconds
+	 * @return string The identifier of the message under which it was queued
 	 */
-	public function queue($queueName, JobInterface $job) {
+	public function queue($queueName, JobInterface $job, $priority = NULL, $delay = NULL, $timeToRun = NULL) {
 		$queue = $this->getQueue($queueName);
 
 		$payload = serialize($job);
 		$message = new \TYPO3\Jobqueue\Common\Queue\Message($payload);
 
-		$queue->submit($message);
+		return $queue->submit($message, $priority, $delay, $timeToRun);
 	}
 
 	/**

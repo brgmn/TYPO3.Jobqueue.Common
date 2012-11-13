@@ -28,9 +28,12 @@ interface QueueInterface {
 	 * another message with the same identifier already exists.
 	 *
 	 * @param \TYPO3\Jobqueue\Common\Queue\Message $message
+	 * @param integer $priority priority of this job from 0 = most urgent to PHP_INT_MAX = least urgent
+	 * @param integer $delay delay for this job in seconds
+	 * @param integer $timeToRun time to run (TTR) in seconds
 	 * @return string The identifier of the message under which it was queued
 	 */
-	public function submit(\TYPO3\Jobqueue\Common\Queue\Message $message);
+	public function submit(\TYPO3\Jobqueue\Common\Queue\Message $message, $priority = NULL, $delay = NULL, $timeToRun = NULL);
 
 	/**
 	 * Wait for a message in the queue and remove the message from the queue for processing

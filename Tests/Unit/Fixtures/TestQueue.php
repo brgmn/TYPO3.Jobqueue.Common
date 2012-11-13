@@ -66,10 +66,13 @@ class TestQueue implements \TYPO3\Jobqueue\Common\Queue\QueueInterface {
 
 	/**
 	 * @param \TYPO3\Jobqueue\Common\Queue\Message $message
-	 * @return void
+	 * @param integer $priority priority of this job from 0 = most urgent to PHP_INT_MAX = least urgent
+	 * @param integer $delay delay for this job in seconds
+	 * @param integer $timeToRun time to run (TTR) in seconds
+	 * @return string The identifier of the message under which it was queued
 	 */
-	public function submit(\TYPO3\Jobqueue\Common\Queue\Message $message) {
-			// TODO Unique identifiers
+	public function submit(\TYPO3\Jobqueue\Common\Queue\Message $message, $priority = NULL, $delay = NULL, $timeToRun = NULL) {
+		// TODO Unique identifiers
 		$this->messages[] = $message;
 	}
 
