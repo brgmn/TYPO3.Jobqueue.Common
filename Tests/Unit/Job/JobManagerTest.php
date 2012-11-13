@@ -46,7 +46,7 @@ class JobManagerTest extends \TYPO3\Flow\Tests\UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function queuePublishesMessageToQueue() {
+	public function queueSubmitsMessageToQueue() {
 		$job = new \TYPO3\Jobqueue\Common\Tests\Unit\Fixtures\TestJob();
 		$this->jobManager->queue('TestQueue', $job);
 

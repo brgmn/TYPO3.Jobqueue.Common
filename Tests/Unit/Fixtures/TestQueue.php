@@ -68,7 +68,7 @@ class TestQueue implements \TYPO3\Jobqueue\Common\Queue\QueueInterface {
 	 * @param \TYPO3\Jobqueue\Common\Queue\Message $message
 	 * @return void
 	 */
-	public function publish(\TYPO3\Jobqueue\Common\Queue\Message $message) {
+	public function submit(\TYPO3\Jobqueue\Common\Queue\Message $message) {
 			// TODO Unique identifiers
 		$this->messages[] = $message;
 	}

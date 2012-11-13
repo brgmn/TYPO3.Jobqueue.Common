@@ -19,7 +19,7 @@ use TYPO3\Flow\Annotations as Flow;
 interface QueueInterface {
 
 	/**
-	 * Publish a message to the queue
+	 * Submit a message to the queue
 	 *
 	 * The state of the message will be updated according
 	 * to the result of the operation.
@@ -29,9 +29,8 @@ interface QueueInterface {
 	 *
 	 * @param \TYPO3\Jobqueue\Common\Queue\Message $message
 	 * @return string The identifier of the message under which it was queued
-	 * @todo rename to submit()
 	 */
-	public function publish(\TYPO3\Jobqueue\Common\Queue\Message $message);
+	public function submit(\TYPO3\Jobqueue\Common\Queue\Message $message);
 
 	/**
 	 * Wait for a message in the queue and remove the message from the queue for processing
@@ -52,10 +51,10 @@ interface QueueInterface {
 	 * the message might be inserted to the queue after some time limit has passed.
 	 *
 	 * If a non-null value was returned, the message was reserved. Otherwise a timeout
-	 * occured and no message was available or received.
+	 * occurred and no message was available or received.
 	 *
 	 * @param integer $timeout
-	 * @return \TYPO3\Jobqueue\Common\Queue\Message The received message or NULL if a timeout occured
+	 * @return \TYPO3\Jobqueue\Common\Queue\Message The received message or NULL if a timeout occurred
 	 */
 	public function waitAndReserve($timeout = NULL);
 
@@ -65,6 +64,7 @@ interface QueueInterface {
 	 * This must be called for every message that was reserved and that was
 	 * processed successfully.
 	 *
+	 * @param \TYPO3\Jobqueue\Common\Queue\Message $message
 	 * @return boolean TRUE if the message could be removed
 	 */
 	public function finish(\TYPO3\Jobqueue\Common\Queue\Message $message);

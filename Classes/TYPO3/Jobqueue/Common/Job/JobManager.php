@@ -44,7 +44,7 @@ class JobManager {
 		$payload = serialize($job);
 		$message = new \TYPO3\Jobqueue\Common\Queue\Message($payload);
 
-		$queue->publish($message);
+		$queue->submit($message);
 	}
 
 	/**
